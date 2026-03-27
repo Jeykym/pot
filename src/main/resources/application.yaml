@@ -1,3 +1,10 @@
 spring:
   application:
     name: pot
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+#    url: jdbc:postgresql://localhost:5432/pot
+    username: ${POSTGRES_USER}
+#    username: pot_user
+#    password: secret's
+    password: ${POSTGRES_PASSWORD}
