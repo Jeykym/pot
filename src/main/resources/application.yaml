@@ -8,3 +8,6 @@ spring:
 #    username: pot_user
 #    password: secret's
     password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
