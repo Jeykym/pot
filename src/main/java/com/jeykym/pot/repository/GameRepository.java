@@ -1,0 +1,7 @@
+package com.jeykym.pot.repository;
+
+import com.jeykym.pot.model.Game;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameRepository extends JpaRepository<Game, Long> {
+}

@@ -29,9 +29,9 @@ public class PlayerRepositoryIT extends AbstractRepositoryIT {
         var player = new Player("testName");
 
         playerRepository.save(player);
+        playerRepository.flush();
 
         var players = playerRepository.findAll();
-        playerRepository.flush();
 
         assertThat(players)
                 .hasSize(1)
