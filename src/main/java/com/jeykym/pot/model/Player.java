@@ -8,7 +8,6 @@ public class Player {
 
     @Id
     @GeneratedValue
-    @Column(name = "player_id")
     private Long id;
 
     @Column(unique = true, nullable = false, check = @CheckConstraint(constraint = "trim(name) <> ''"))
