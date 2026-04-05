@@ -26,7 +26,7 @@ public class PotApplication {
 		return args -> {
 			var player = playerRepository.save(new Player("John Wick"));
 			var game = gameRepository.save(new Game(Instant.now()));
-			var participation = participationRepository.save(new Participation(player, game));
+			var participation = participationRepository.save(new Participation(player, game, 100, 10));
 			System.out.println("Inserted participation for player: " + player.getId() + " in game: " + game.getId());
 		};
 	}

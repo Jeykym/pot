@@ -58,12 +58,15 @@ public class ParticipationRepositoryIT extends AbstractRepositoryIT {
         playerRepository.flush();
         gameRepository.flush();
 
-        participationRepository.save(new Participation(player, game));
+        var participation = participationRepository.save(new Participation(player, game, 100, 10));
 
         var participations = participationRepository.findAll();
         assertThat(participations)
                 .hasSize(1);
-
+        assertThat(participations)
+                .singleElement()
+                .returns(participation.getBuyIn(), Participation::getBuyIn)
+                .returns(participation.getFinalStack(), Participation::getFinalStack);
         var savedParticipation = participations.getFirst();
         var optionalPlayer = playerRepository.findById(savedParticipation.getPlayerId());
         var optionalGame = gameRepository.findById(savedParticipation.getGameId());
@@ -88,13 +91,41 @@ public class ParticipationRepositoryIT extends AbstractRepositoryIT {
         var game = gameRepository.save(new Game(Instant.now()));
         gameRepository.flush();
 
-        var participation1 = participationRepository.save(new Participation(player, game));
+        var participation1 = participationRepository.save(new Participation(player, game, 100, 10));
         participationRepository.flush();
         entityManager.clear();
 
         assertThatThrownBy(() -> {
-            entityManager.persist(new Participation(player, game));
+            entityManager.persist(new Participation(player, game, 100, 150));
             participationRepository.flush();
+        })
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    void shouldFailOnNullBuyIn() {
+        var player = playerRepository.save(new Player("John Wick"));
+        playerRepository.flush();
+
+        var game = gameRepository.save(new Game(Instant.now()));
+        gameRepository.flush();
+
+        assertThatThrownBy(() -> {
+            participationRepository.save(new Participation(player, game, null, 10));
+        })
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    void shouldFailOnNullFinalStack() {
+        var player = playerRepository.save(new Player("John Wick"));
+        playerRepository.flush();
+
+        var game = gameRepository.save(new Game(Instant.now()));
+        gameRepository.flush();
+
+        assertThatThrownBy(() -> {
+            participationRepository.save(new Participation(player, game, 100, null));
         })
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -112,8 +143,8 @@ public class ParticipationRepositoryIT extends AbstractRepositoryIT {
         assertThat(players)
                 .hasSize(2);
 
-        participationRepository.save(new Participation(player1, game));
-        participationRepository.save(new Participation(player2, game));
+        participationRepository.save(new Participation(player1, game, 100, 10));
+        participationRepository.save(new Participation(player2, game, 100, 150));
 
         var participationsByGame = participationRepository.findAllById_GameId(game.getId());
         assertThat(participationsByGame)
@@ -130,8 +161,8 @@ public class ParticipationRepositoryIT extends AbstractRepositoryIT {
         var game2 = gameRepository.save(new Game(Instant.now().minus(2, ChronoUnit.MINUTES)));
         gameRepository.flush();
 
-        participationRepository.save(new Participation(player, game1));
-        participationRepository.save(new Participation(player, game2));
+        participationRepository.save(new Participation(player, game1, 100, 10));
+        participationRepository.save(new Participation(player, game2, 100, 150));
 
         var participationsByPlayer = participationRepository.findAllById_PlayerId(player.getId());
         assertThat(participationsByPlayer)

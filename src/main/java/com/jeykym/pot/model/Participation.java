@@ -17,18 +17,25 @@ public class Participation {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @Column(name = "buy_in")
+    @Column(name = "buy_in", nullable = false)
     private Integer buyIn;
 
-    private Integer result;
+    @Column(name = "final_stack", nullable = false)
+    private Integer finalStack;
 
     @SuppressWarnings("unused")
     public Participation() {}
 
-    public Participation(Player player, Game game) {
+    public Participation(Player player, Game game, Integer buyIn, Integer finalStack) {
         this.player = player;
         this.game = game;
         this.id = new ParticipationId(player.getId(), game.getId());
+        this.buyIn = buyIn;
+        this.finalStack = finalStack;
+
+    }
+
+    private void sta() {
     }
 
     public Long getPlayerId() {
@@ -37,5 +44,13 @@ public class Participation {
 
     public Long getGameId() {
         return game.getId();
+    }
+
+    public Integer getBuyIn() {
+        return buyIn;
+    }
+
+    public Integer getFinalStack() {
+        return finalStack;
     }
 }
