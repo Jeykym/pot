@@ -131,6 +131,36 @@ public class ParticipationRepositoryIT extends AbstractRepositoryIT {
     }
 
     @Test
+    void shouldFailOnNegativeBuyIn() {
+        var player = playerRepository.save(new Player("John Wick"));
+        playerRepository.flush();
+
+        var game = gameRepository.save(new Game(Instant.now()));
+        gameRepository.flush();
+
+        assertThatThrownBy(() -> {
+            participationRepository.save(new Participation(player, game, -1, 10));
+            participationRepository.flush();
+        })
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    void shouldFailOnNegativeFinalStack() {
+        var player = playerRepository.save(new Player("John Wick"));
+        playerRepository.flush();
+
+        var game = gameRepository.save(new Game(Instant.now()));
+        gameRepository.flush();
+
+        assertThatThrownBy(() -> {
+            participationRepository.save(new Participation(player, game, 100, -1));
+            participationRepository.flush();
+        })
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
     void shouldAllowParticipationOfMultiplePlayers() {
         var game = gameRepository.save(new Game(Instant.now()));
         gameRepository.flush();

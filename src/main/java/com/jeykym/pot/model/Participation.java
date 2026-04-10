@@ -17,10 +17,10 @@ public class Participation {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @Column(name = "buy_in", nullable = false)
+    @Column(name = "buy_in", nullable = false, check = @CheckConstraint(constraint = "buy_in >= 0"))
     private Integer buyIn;
 
-    @Column(name = "final_stack", nullable = false)
+    @Column(name = "final_stack", nullable = false, check = @CheckConstraint(constraint = "final_stack >= 0"))
     private Integer finalStack;
 
     @SuppressWarnings("unused")
