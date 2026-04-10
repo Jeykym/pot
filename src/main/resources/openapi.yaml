@@ -1,0 +1,121 @@
+openapi: '3.1.0'
+info:
+  version: '1.0.0'
+  title: 'Poker Outcome Tracker'
+  description: Users can track their gains/losses in poker using this API
+
+paths:
+  /players:
+    post:
+      summary: Create a player
+      responses:
+        '201':
+          description: The player was created successfully
+        '400':
+          description: Failed to create the user
+  /players/{playerId}:
+    parameters:
+    - name: playerId
+      description: The unique identifier of the player
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PlayerId'
+    get:
+      summary: Read a player
+      responses:
+        '200':
+          description: The player corresponding to the provided playerId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '404':
+          description: The player with the corresponding playerId was not found
+    delete:
+      summary: Delete a player
+      responses:
+        '204':
+          description: The player with the corresponding playerId was deleted
+  /games:
+    post:
+      description: Create a game
+  /games/{gameId}:
+    parameters:
+      - name: gameId
+        description: The unique identifier of the game
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/GameId'
+    get:
+      description: Read a game
+      responses:
+        '200':
+          description: The game corresponding to the provided gameId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+
+components:
+  schemas:
+    PlayerId:
+      description: The unique identifier of a player
+      type: string
+      format: uuid
+    PlayerName:
+      description: The username of a player
+      type: string
+    Player:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          $ref: '#/components/schemas/PlayerId'
+        name:
+          $ref: '#/components/schemas/PlayerName'
+        email:
+          type: string
+          format: email
+    GameId:
+      description: The unique identifier of a game
+      type: string
+      format: uuid
+    Game:
+      type: object
+      required:
+        - id
+        - playedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/GameId"
+        playedAt:
+          type: string
+          format: date-time
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participation'
+    Participation:
+      type: object
+      required:
+        - playerId
+        - playerName
+        - buyIn
+        - finalStack
+        - net
+      properties:
+        playerId:
+          $ref: '#/components/schemas/PlayerId'
+        playerName:
+          $ref: '#/components/schemas/PlayerName'
+        buyIn:
+          type: integer
+        finalStack:
+          type: integer
+        net:
+          type: integer
