@@ -8,11 +8,21 @@ paths:
   /players:
     post:
       summary: Create a player
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayerRequest'
       responses:
         '201':
           description: The player was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
         '400':
           description: Failed to create the user
+
   /players/{playerId}:
     parameters:
     - name: playerId
@@ -37,9 +47,25 @@ paths:
       responses:
         '204':
           description: The player with the corresponding playerId was deleted
+
   /games:
     post:
       description: Create a game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGameRequest'
+      responses:
+        '201':
+          description: The game was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '400':
+          description: Failed to create the game
+
   /games/{gameId}:
     parameters:
       - name: gameId
@@ -57,6 +83,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Game'
+        '404':
+          description: The game corresponding to the provided gameId does not exist
 
 components:
   schemas:
@@ -64,9 +92,16 @@ components:
       description: The unique identifier of a player
       type: string
       format: uuid
+
     PlayerName:
       description: The username of a player
       type: string
+
+    PlayerEmail:
+      description: The email of a player
+      type: string
+      format: email
+
     Player:
       type: object
       required:
@@ -79,12 +114,30 @@ components:
         name:
           $ref: '#/components/schemas/PlayerName'
         email:
-          type: string
-          format: email
+          $ref: '#/components/schemas/PlayerEmail'
+
+    CreatePlayerRequest:
+      description: Register a player
+      type: object
+      required:
+        - email
+        - name
+      properties:
+        email:
+          $ref: '#/components/schemas/PlayerEmail'
+        name:
+          $ref: '#/components/schemas/PlayerName'
+
     GameId:
       description: The unique identifier of a game
       type: string
       format: uuid
+
+    PlayedAt:
+      description: A game's timestamp
+      type: string
+      format: date-time
+
     Game:
       type: object
       required:
@@ -94,20 +147,32 @@ components:
         id:
           $ref: "#/components/schemas/GameId"
         playedAt:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/PlayedAt'
         players:
           type: array
           items:
             $ref: '#/components/schemas/Participation'
+
+    CreateGameRequest:
+      description: Record a game
+      type: object
+      required:
+        - playedAt
+        - participations
+      properties:
+        playedAt:
+          $ref: '#/components/schemas/PlayedAt'
+        participations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participation'
+
     Participation:
       type: object
       required:
         - playerId
-        - playerName
         - buyIn
         - finalStack
-        - net
       properties:
         playerId:
           $ref: '#/components/schemas/PlayerId'
