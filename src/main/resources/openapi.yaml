@@ -37,12 +37,7 @@ paths:
 
   /players/{playerId}:
     parameters:
-    - name: playerId
-      description: The unique identifier of the player
-      in: path
-      required: true
-      schema:
-        $ref: '#/components/schemas/PlayerId'
+      - $ref: '#/components/parameters/PlayerId'
     get:
       summary: Read a player
       responses:
@@ -59,7 +54,6 @@ paths:
       responses:
         '204':
           description: The player with the corresponding playerId was deleted
-
   /games:
     post:
       summary: Create a game
@@ -80,12 +74,7 @@ paths:
 
   /games/{gameId}:
     parameters:
-      - name: gameId
-        description: The unique identifier of the game
-        in: path
-        required: true
-        schema:
-          $ref: '#/components/schemas/GameId'
+      - $ref: '#/components/parameters/GameId'
     get:
       summary: Read a game
       responses:
@@ -99,6 +88,23 @@ paths:
           description: The game corresponding to the provided gameId does not exist
 
 components:
+  parameters:
+    PlayerId:
+      name: playerId
+      description: The unique identifier of a player
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PlayerId'
+
+    GameId:
+      name: gameId
+      description: The unique identifier of a game
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/GameId'
+
   schemas:
     PlayerId:
       description: The unique identifier of a player
