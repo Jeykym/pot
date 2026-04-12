@@ -5,23 +5,42 @@ info:
   description: Users can track their gains/losses in poker using this API
 
 paths:
-  /players:
+  /auth/verify:
     post:
-      summary: Create a player
+      summary: Verify your email
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreatePlayerRequest'
+              $ref: '#/components/schemas/PlayerEmail'
+      responses:
+        '202':
+          description: A verification code was sent to the provided email address
+
+  /auth/register:
+    post:
+      summary: Register a player with verified email address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerName:
+                  $ref: '#/components/schemas/PlayerName'
+                playerEmail:
+                  $ref: '#/components/schemas/PlayerEmail'
+                otp:
+                  type: string
       responses:
         '201':
-          description: The player was created successfully
+          description: A player was created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
         '400':
-          description: Failed to create the user
+          description: Something went wrong
 
   /players/{playerId}:
     parameters:
