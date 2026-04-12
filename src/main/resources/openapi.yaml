@@ -120,26 +120,29 @@ components:
       type: string
       format: email
 
+    Otp:
+      type: string
+
     Player:
       type: object
       required:
-        - id
-        - name
-        - email
+        - playerId
+        - playerName
+        - playerEmail
       properties:
-        id:
+        playerId:
           $ref: '#/components/schemas/PlayerId'
-        name:
+        playerName:
           $ref: '#/components/schemas/PlayerName'
-        email:
+        playerEmail:
           $ref: '#/components/schemas/PlayerEmail'
 
     VerifyEmailRequest:
       type: object
       required:
-        - email
+        - playerEmail
       properties:
-        email:
+        playerEmail:
           $ref: '#/components/schemas/PlayerEmail'
 
     RegisterPlayerRequest:
@@ -154,8 +157,7 @@ components:
         playerEmail:
           $ref: '#/components/schemas/PlayerEmail'
         otp:
-          type: string
-          description: one-time password
+          $ref: '#/components/schemas/Otp'
 
     GameId:
       description: The unique identifier of a game
@@ -170,14 +172,14 @@ components:
     Game:
       type: object
       required:
-        - id
+        - gameId
         - playedAt
       properties:
-        id:
+        gameId:
           $ref: "#/components/schemas/GameId"
         playedAt:
           $ref: '#/components/schemas/PlayedAt'
-        players:
+        participations:
           type: array
           items:
             $ref: '#/components/schemas/Participation'
@@ -205,11 +207,7 @@ components:
       properties:
         playerId:
           $ref: '#/components/schemas/PlayerId'
-        playerName:
-          $ref: '#/components/schemas/PlayerName'
         buyIn:
           type: integer
         finalStack:
-          type: integer
-        net:
           type: integer
