@@ -12,7 +12,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlayerEmail'
+              $ref: '#/components/schemas/VerifyEmailRequest'
       responses:
         '202':
           description: A verification code was sent to the provided email address
@@ -24,14 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                playerName:
-                  $ref: '#/components/schemas/PlayerName'
-                playerEmail:
-                  $ref: '#/components/schemas/PlayerEmail'
-                otp:
-                  type: string
+              $ref: '#/components/schemas/RegisterPlayerRequest'
       responses:
         '201':
           description: A player was created
@@ -135,17 +128,28 @@ components:
         email:
           $ref: '#/components/schemas/PlayerEmail'
 
-    CreatePlayerRequest:
-      description: Register a player
+    VerifyEmailRequest:
       type: object
       required:
         - email
-        - name
       properties:
         email:
           $ref: '#/components/schemas/PlayerEmail'
-        name:
+
+    RegisterPlayerRequest:
+      type: object
+      required:
+        - playerName
+        - playerEmail
+        - otp
+      properties:
+        playerName:
           $ref: '#/components/schemas/PlayerName'
+        playerEmail:
+          $ref: '#/components/schemas/PlayerEmail'
+        otp:
+          type: string
+          description: one-time password
 
     GameId:
       description: The unique identifier of a game
