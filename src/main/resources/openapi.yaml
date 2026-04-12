@@ -62,7 +62,7 @@ paths:
 
   /games:
     post:
-      description: Create a game
+      summary: Create a game
       requestBody:
         content:
           application/json:
@@ -87,7 +87,7 @@ paths:
         schema:
           $ref: '#/components/schemas/GameId'
     get:
-      description: Read a game
+      summary: Read a game
       responses:
         '200':
           description: The game corresponding to the provided gameId
