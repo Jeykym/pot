@@ -34,6 +34,10 @@ paths:
                 $ref: '#/components/schemas/Player'
         '400':
           description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /players/{playerId}:
     parameters:
@@ -49,6 +53,10 @@ paths:
                 $ref: '#/components/schemas/Player'
         '404':
           description: The player with the corresponding playerId was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       summary: Delete a player
       responses:
@@ -71,6 +79,10 @@ paths:
                   $ref: '#/components/schemas/Game'
         '404':
           description: The player with the corresponding playerID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /games:
     post:
@@ -89,6 +101,10 @@ paths:
                 $ref: '#/components/schemas/Game'
         '400':
           description: Failed to create the game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /games/{gameId}:
     parameters:
@@ -229,3 +245,14 @@ components:
           type: integer
         finalStack:
           type: integer
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
