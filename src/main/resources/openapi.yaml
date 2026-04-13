@@ -208,11 +208,14 @@ components:
       required:
         - gameId
         - playedAt
+        - authorId
       properties:
         gameId:
           $ref: "#/components/schemas/GameId"
         playedAt:
           $ref: '#/components/schemas/PlayedAt'
+        authorId:
+          $ref: '#/components/schemas/PlayerId'
         participations:
           type: array
           items:
@@ -223,10 +226,13 @@ components:
       type: object
       required:
         - playedAt
+        - authorId
         - participations
       properties:
         playedAt:
           $ref: '#/components/schemas/PlayedAt'
+        authorId:
+          $ref: '#/components/schemas/PlayerId'
         participations:
           type: array
           items:
