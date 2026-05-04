@@ -2,11 +2,14 @@ package com.jeykym.pot.integrationTest;
 
 import com.jeykym.pot.model.Game;
 import com.jeykym.pot.repository.GameRepository;
+import com.jeykym.pot.repository.ParticipationRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Rollback;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
@@ -21,8 +24,12 @@ public class GameRepositoryIT extends AbstractRepositoryIT {
     @Autowired
     GameRepository gameRepository;
 
+    @Autowired
+    ParticipationRepository participationRepository;
+
     @BeforeEach
     void setUp() {
+        participationRepository.deleteAll();
         gameRepository.deleteAll();
     }
 

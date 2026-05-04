@@ -5,8 +5,9 @@ import com.jeykym.pot.model.ParticipationId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ParticipationRepository extends JpaRepository<Participation, ParticipationId> {
-    List<Participation> findAllById_GameId(Long gameId);
-    List<Participation> findAllById_PlayerId(Long playerId);
+    List<Participation> findAllById_GameId(UUID gameId);
+    List<Participation> findAllById_PlayerId(UUID playerId);
 }

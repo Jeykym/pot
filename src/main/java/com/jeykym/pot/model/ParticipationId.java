@@ -19,7 +19,7 @@ public class ParticipationId implements Serializable {
     @SuppressWarnings("unused")
     public ParticipationId() {}
 
-    ParticipationId(UUID playerId, UUID gameId) {
+    public ParticipationId(UUID playerId, UUID gameId) {
         this.playerId = playerId;
         this.gameId = gameId;
     }

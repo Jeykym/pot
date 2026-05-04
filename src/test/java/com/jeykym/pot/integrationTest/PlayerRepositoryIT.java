@@ -1,12 +1,15 @@
 package com.jeykym.pot.integrationTest;
 
 import com.jeykym.pot.model.Player;
+import com.jeykym.pot.repository.ParticipationRepository;
 import com.jeykym.pot.repository.PlayerRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Rollback;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,8 +22,12 @@ public class PlayerRepositoryIT extends AbstractRepositoryIT {
     @Autowired
     PlayerRepository playerRepository;
 
+    @Autowired
+    ParticipationRepository participationRepository;
+
     @BeforeEach
     void setUp() {
+        participationRepository.deleteAll();
         playerRepository.deleteAll();
     }
 
@@ -39,8 +46,7 @@ public class PlayerRepositoryIT extends AbstractRepositoryIT {
                 .containsExactly(player.getName());
 
         assertThat(players.getFirst().getId())
-                .isNotNull()
-                .isPositive();
+                .isNotNull();
     }
 
     @Test

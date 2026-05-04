@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Game {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue()
     private UUID id;
 
     @Column(nullable = false)
@@ -32,7 +32,7 @@ public class Game {
         return id;
     }
 
-    public Instant getPlayedAt() {
+    public Instant getDate() {
         return playedAt;
     }
 }
