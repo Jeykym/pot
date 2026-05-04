@@ -31,7 +31,7 @@ public class Participation {
     public Participation(Player player, Game game, Integer buyIn, Integer finalStack) {
         this.player = player;
         this.game = game;
-        this.id = new ParticipationId(player.getId(), game.getId());
+        this.id = new ParticipationId();
         this.buyIn = buyIn;
         this.finalStack = finalStack;
 
