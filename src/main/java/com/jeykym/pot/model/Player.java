@@ -2,13 +2,15 @@ package com.jeykym.pot.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "player")
 public class Player {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Column(unique = true, nullable = false, check = @CheckConstraint(constraint = "trim(name) <> ''"))
     private String name;
@@ -21,7 +23,7 @@ public class Player {
         this.name = name;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

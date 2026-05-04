@@ -5,20 +5,21 @@ import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Embeddable
 public class ParticipationId implements Serializable {
 
     @Column(name = "player_id")
-    private Long playerId;
+    private UUID playerId;
 
     @Column(name = "game_id")
-    private Long gameId;
+    private UUID gameId;
 
     @SuppressWarnings("unused")
     public ParticipationId() {}
 
-    ParticipationId(Long playerId, Long gameId) {
+    ParticipationId(UUID playerId, UUID gameId) {
         this.playerId = playerId;
         this.gameId = gameId;
     }

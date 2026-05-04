@@ -3,6 +3,7 @@ package com.jeykym.pot.model;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "game")
@@ -10,13 +11,16 @@ public class Game {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
-    private Instant date;
+    private Instant playedAt;
 
-    public Game(Instant date) {
-        this.date = date;
+    @Column
+    private UUID authorPlayerId;
+
+    public Game(Instant playedAt) {
+        this.playedAt = playedAt;
     }
 
     @SuppressWarnings("unused")
@@ -24,11 +28,11 @@ public class Game {
 
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public Instant getDate() {
-        return date;
+    public Instant getPlayedAt() {
+        return playedAt;
     }
 }

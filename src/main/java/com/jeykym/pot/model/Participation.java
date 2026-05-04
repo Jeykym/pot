@@ -2,6 +2,8 @@ package com.jeykym.pot.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class Participation {
     @EmbeddedId
@@ -38,11 +40,11 @@ public class Participation {
     private void sta() {
     }
 
-    public Long getPlayerId() {
+    public UUID getPlayerId() {
         return player.getId();
     }
 
-    public Long getGameId() {
+    public UUID getGameId() {
         return game.getId();
     }
 
