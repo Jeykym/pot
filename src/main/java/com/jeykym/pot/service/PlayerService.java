@@ -1,10 +1,11 @@
 package com.jeykym.pot.service;
 
 import com.jeykym.pot.dto.CreatePlayerRequest;
-import com.jeykym.pot.dto.PlayerDTO;
 import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PlayerService {
 
     PlayerRepository playerRepository;
