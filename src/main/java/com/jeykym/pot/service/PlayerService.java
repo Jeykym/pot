@@ -1,6 +1,7 @@
 package com.jeykym.pot.service;
 
 import com.jeykym.pot.dto.CreatePlayerRequest;
+import com.jeykym.pot.dto.PlayerDTO;
 import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Player createPlayer(CreatePlayerRequest createPlayerRequest) {
-        return playerRepository.save(new Player(createPlayerRequest.name()));
+    public PlayerDTO createPlayer(CreatePlayerRequest request) {
+        var savedPlayer = playerRepository.save(new Player(request.name()));
+        return PlayerDTO.from(savedPlayer);
     }
 }
