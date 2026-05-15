@@ -2,7 +2,6 @@ package com.jeykym.pot.api;
 
 import com.jeykym.pot.dto.CreatePlayerRequest;
 import com.jeykym.pot.dto.PlayerDTO;
-import com.jeykym.pot.model.Player;
 import com.jeykym.pot.service.PlayerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<PlayerDTO> createPlayer(CreatePlayerRequest request) {
+    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody@Valid CreatePlayerRequest request) {
         return ResponseEntity.ok(playerService.createPlayer(request));
     }
 }
