@@ -10,6 +10,9 @@ The application allows users to:
 * View historical results
 * Calculate overall balances across multiple sessions
 
+## Project Status
+The project is still in its development phase.
+
 ## Technology Stack
 
 * Java
