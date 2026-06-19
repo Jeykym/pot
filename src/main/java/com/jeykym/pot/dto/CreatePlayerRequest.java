@@ -1,9 +1,9 @@
 package com.jeykym.pot.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreatePlayerRequest(
-        @NotNull
+        @NotBlank
         String name
 ) {
 }
