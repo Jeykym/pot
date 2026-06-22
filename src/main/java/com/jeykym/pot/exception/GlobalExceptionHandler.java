@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(PlayerAlreadyExistsException.class)
-    public ResponseEntity<?> handlePlayerAlreadyExistException(PlayerAlreadyExistsException exception) {
-        ErrorResponse playerAlreadyExists = new ErrorResponse("PLAYER_ALREADY_EXISTS", exception.getMessage());
-        return new ResponseEntity<>(playerAlreadyExists, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(PotException.class)
+    public ResponseEntity<?> handlePotException(PotException exception) {
+        ErrorResponse potException = new ErrorResponse(exception.getCode(), exception.getMessage());
+        return new ResponseEntity<>(potException, exception.getStatus());
     }
 }
