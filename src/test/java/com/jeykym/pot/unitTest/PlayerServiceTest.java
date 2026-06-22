@@ -1,7 +1,7 @@
 package com.jeykym.pot.unitTest;
 
 import com.jeykym.pot.dto.CreatePlayerRequest;
-import com.jeykym.pot.exception.PlayerAlreadyExistsException;
+import com.jeykym.pot.exception.customException.PlayerAlreadyExistsException;
 import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
 import com.jeykym.pot.service.PlayerService;
