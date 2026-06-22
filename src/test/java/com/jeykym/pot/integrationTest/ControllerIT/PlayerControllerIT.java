@@ -67,7 +67,7 @@ public class PlayerControllerIT extends AbstractContainerIT {
     void createPlayer_returns400OnMissingBody() throws Exception {
         mockMvc.perform(post("/players").contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.code").value("MALFORMED_REQUEST"))
                 .andExpect(jsonPath("$.message").isNotEmpty());
     }
 }
