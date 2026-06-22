@@ -3,6 +3,8 @@ package com.jeykym.pot.integrationTest.ControllerIT;
 import com.jeykym.pot.dto.CreatePlayerRequest;
 import com.jeykym.pot.dto.PlayerDTO;
 import com.jeykym.pot.integrationTest.AbstractContainerIT;
+import com.jeykym.pot.repository.PlayerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,9 +25,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PlayerControllerIT extends AbstractContainerIT {
 
     @Autowired
+    private PlayerRepository playerRepository;
+
+    @Autowired
     MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @AfterEach
+    void tearDown() {
+        playerRepository.deleteAll();
+    }
 
     @Test
     void createPlayer_returns201WithLocationAndBody() throws Exception {
