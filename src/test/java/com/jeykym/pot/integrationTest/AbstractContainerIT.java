@@ -5,7 +5,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
-public abstract class AbstractRepositoryIT {
+public abstract class AbstractContainerIT {
     @Container
     static PostgreSQLContainer postgres = new PostgreSQLContainer(
             "postgres:16"

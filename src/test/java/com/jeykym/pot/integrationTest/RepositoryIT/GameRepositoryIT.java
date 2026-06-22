@@ -1,15 +1,14 @@
-package com.jeykym.pot.integrationTest;
+package com.jeykym.pot.integrationTest.RepositoryIT;
 
+import com.jeykym.pot.integrationTest.AbstractContainerIT;
 import com.jeykym.pot.model.Game;
 import com.jeykym.pot.repository.GameRepository;
 import com.jeykym.pot.repository.ParticipationRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.Rollback;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
@@ -19,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
-public class GameRepositoryIT extends AbstractRepositoryIT {
+public class GameRepositoryIT extends AbstractContainerIT {
 
     @Autowired
     GameRepository gameRepository;

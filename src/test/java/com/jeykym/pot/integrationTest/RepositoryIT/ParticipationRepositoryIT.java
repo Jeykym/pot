@@ -1,5 +1,6 @@
-package com.jeykym.pot.integrationTest;
+package com.jeykym.pot.integrationTest.RepositoryIT;
 
+import com.jeykym.pot.integrationTest.AbstractContainerIT;
 import com.jeykym.pot.model.Game;
 import com.jeykym.pot.model.Participation;
 import com.jeykym.pot.model.Player;
@@ -26,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Testcontainers
 @Transactional
 @Rollback
-public class ParticipationRepositoryIT extends AbstractRepositoryIT {
+public class ParticipationRepositoryIT extends AbstractContainerIT {
 
     @Autowired
     ParticipationRepository participationRepository;
