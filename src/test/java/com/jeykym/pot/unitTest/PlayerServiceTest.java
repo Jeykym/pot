@@ -1,6 +1,7 @@
 package com.jeykym.pot.unitTest;
 
 import com.jeykym.pot.dto.CreatePlayerRequest;
+import com.jeykym.pot.exception.customException.InvalidFieldException;
 import com.jeykym.pot.exception.customException.PlayerAlreadyExistsException;
 import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -92,5 +94,35 @@ public class PlayerServiceTest {
         assertThat(result.get(0).name()).isEqualTo(player1.getName());
         assertThat(result.get(1).name()).isEqualTo(player2.getName());
         verify(playerRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getById_throwsException_whenIdIsNull() {
+        assertThatThrownBy(() -> playerService.getById(null))
+                .isInstanceOf(InvalidFieldException.class);
+    }
+
+    @Test
+    void getById_returnsNull_whenPlayerDoesNotExist() {
+        UUID id = UUID.randomUUID();
+        when(playerRepository.findById(id)).thenReturn(java.util.Optional.empty());
+
+        var result = playerService.getById(id);
+
+        assertThat(result).isNull();
+        verify(playerRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void getById_returnsPlayer_whenPlayerExists() {
+        UUID id = UUID.randomUUID();
+        var player = new Player("Charlie");
+        when(playerRepository.findById(id)).thenReturn(java.util.Optional.of(player));
+
+        var result = playerService.getById(id);
+
+        assertThat(result).isNotNull();
+        assertThat(result.name()).isEqualTo(player.getName());
+        verify(playerRepository, times(1)).findById(id);
     }
 }

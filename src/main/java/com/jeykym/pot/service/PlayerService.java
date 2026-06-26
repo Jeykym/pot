@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PlayerService {
@@ -35,5 +37,15 @@ public class PlayerService {
                 .map(PlayerDTO::from)
                 .toList();
 
+    }
+
+    public PlayerDTO getById(UUID id) {
+        if (id == null) {
+            throw new InvalidFieldException("Player ID cannot be null");
+        }
+
+        var player = playerRepository.findById(id);
+
+        return player.map(PlayerDTO::from).orElse(null);
     }
 }
