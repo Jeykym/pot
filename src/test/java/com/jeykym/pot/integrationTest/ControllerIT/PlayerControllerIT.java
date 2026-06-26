@@ -116,6 +116,33 @@ public class PlayerControllerIT extends AbstractContainerIT {
                 .andExpect(jsonPath("$[1].id").value(player2.getId().toString()))
                 .andExpect(jsonPath("$[1].name").value("Bob"));
     }
+
+    @Test
+    void getPlayerById_returns400OnInvalidUuidFormat() throws Exception {
+        mockMvc.perform(get("/players/not-a-valid-uuid")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getPlayerById_returns404OnNonExistentPlayer() throws Exception {
+        var nonExistentId = java.util.UUID.randomUUID();
+
+        mockMvc.perform(get("/players/" + nonExistentId)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getPlayerById_returns200AndPlayer_whenPlayerExists() throws Exception {
+        var player = playerRepository.save(new Player("Charlie"));
+
+        mockMvc.perform(get("/players/" + player.getId())
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(player.getId().toString()))
+                .andExpect(jsonPath("$.name").value("Charlie"));
+    }
 }
 
 

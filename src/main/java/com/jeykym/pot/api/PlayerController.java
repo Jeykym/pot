@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/players")
@@ -35,5 +36,11 @@ public class PlayerController {
         return ResponseEntity
                 .ok()
                 .body(players);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable UUID id) {
+        PlayerDTO dto = playerService.getById(id);
+        return ResponseEntity.ok(dto);
     }
 }
