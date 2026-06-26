@@ -179,14 +179,14 @@ components:
       required:
         - gameId
         - playedAt
-        - authorId
+        - authorPlayerId
         - participations
       properties:
         gameId:
           $ref: "#/components/schemas/GameId"
         playedAt:
           $ref: '#/components/schemas/PlayedAt'
-        authorId:
+        authorPlayerId:
           $ref: '#/components/schemas/PlayerId'
         participations:
           type: array
