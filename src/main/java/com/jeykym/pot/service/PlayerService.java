@@ -6,6 +6,7 @@ import com.jeykym.pot.exception.customException.PlayerAlreadyExistsException;
 import com.jeykym.pot.exception.customException.InvalidFieldException;
 import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,8 @@ public class PlayerService {
 
         var player = playerRepository.findById(id);
 
-        return player.map(PlayerDTO::from).orElse(null);
+        return player
+                .map(PlayerDTO::from)
+                .orElseThrow(() -> new EntityNotFoundException("Player not found: " + id));
     }
 }

@@ -103,15 +103,17 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void getById_returnsNull_whenPlayerDoesNotExist() {
+    void getById_throwsException_whenPlayerDoesNotExist() {
         UUID id = UUID.randomUUID();
         when(playerRepository.findById(id)).thenReturn(java.util.Optional.empty());
 
-        var result = playerService.getById(id);
+        assertThatThrownBy(() -> playerService.getById(id))
+                .isInstanceOf(jakarta.persistence.EntityNotFoundException.class)
+                .hasMessageContaining("Player not found: " + id);
 
-        assertThat(result).isNull();
         verify(playerRepository, times(1)).findById(id);
     }
+
 
     @Test
     void getById_returnsPlayer_whenPlayerExists() {
