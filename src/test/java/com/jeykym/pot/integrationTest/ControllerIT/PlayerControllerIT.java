@@ -3,6 +3,7 @@ package com.jeykym.pot.integrationTest.ControllerIT;
 import com.jeykym.pot.dto.CreatePlayerRequest;
 import com.jeykym.pot.dto.PlayerDTO;
 import com.jeykym.pot.integrationTest.AbstractContainerIT;
+import com.jeykym.pot.model.Player;
 import com.jeykym.pot.repository.PlayerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -79,6 +80,41 @@ public class PlayerControllerIT extends AbstractContainerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("MALFORMED_REQUEST"))
                 .andExpect(jsonPath("$.message").isNotEmpty());
+    }
+
+    @Test
+    void getAllPlayers_returns200AndEmptyList_whenNoPlayersExist() throws Exception {
+        mockMvc.perform(get("/players")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
+    void getAllPlayers_returns200AndSinglePlayer_whenOnePlayerExists() throws Exception {
+        var player = playerRepository.save(new Player("Alice"));
+
+        mockMvc.perform(get("/players")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(player.getId().toString()))
+                .andExpect(jsonPath("$[0].name").value("Alice"));
+    }
+
+    @Test
+    void getAllPlayers_returns200AndMultiplePlayers_whenMultiplePlayersExist() throws Exception {
+        var player1 = playerRepository.save(new Player("Alice"));
+        var player2 = playerRepository.save(new Player("Bob"));
+
+        mockMvc.perform(get("/players")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value(player1.getId().toString()))
+                .andExpect(jsonPath("$[0].name").value("Alice"))
+                .andExpect(jsonPath("$[1].id").value(player2.getId().toString()))
+                .andExpect(jsonPath("$[1].name").value("Bob"));
     }
 }
 
