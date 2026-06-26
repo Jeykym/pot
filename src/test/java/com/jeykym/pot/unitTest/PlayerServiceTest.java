@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,5 +56,41 @@ public class PlayerServiceTest {
 
         assertThatThrownBy(() -> playerService.createPlayer(new CreatePlayerRequest("John")))
                 .isInstanceOf(PlayerAlreadyExistsException.class);
+    }
+
+    @Test
+    void getAllPlayers_returnsEmptyList_whenNoPlayersExist() {
+        when(playerRepository.findAll()).thenReturn(List.of());
+
+        var result = playerService.getAllPlayers();
+
+        assertThat(result).isEmpty();
+        verify(playerRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getAllPlayers_returnsSinglePlayer_whenOnePlayerExists() {
+        var player = new Player("Alice");
+        when(playerRepository.findAll()).thenReturn(List.of(player));
+
+        var result = playerService.getAllPlayers();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).name()).isEqualTo(player.getName());
+        verify(playerRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getAllPlayers_returnsMultiplePlayers_whenMultiplePlayersExist() {
+        var player1 = new Player("Alice");
+        var player2 = new Player("Bob");
+        when(playerRepository.findAll()).thenReturn(List.of(player1, player2));
+
+        var result = playerService.getAllPlayers();
+
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).name()).isEqualTo(player1.getName());
+        assertThat(result.get(1).name()).isEqualTo(player2.getName());
+        verify(playerRepository, times(1)).findAll();
     }
 }

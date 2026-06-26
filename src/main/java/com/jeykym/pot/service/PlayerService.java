@@ -9,6 +9,8 @@ import com.jeykym.pot.repository.PlayerRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PlayerService {
 
@@ -25,5 +27,13 @@ public class PlayerService {
         } catch (DataIntegrityViolationException e) {
             throw new PlayerAlreadyExistsException(request.name());
         }
+    }
+
+    public List<PlayerDTO> getAllPlayers() {
+        var players = playerRepository.findAll();
+        return players.stream()
+                .map(PlayerDTO::from)
+                .toList();
+
     }
 }
